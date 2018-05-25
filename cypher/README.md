@@ -9,7 +9,7 @@ To create nodes (and similarly to delete) have two options for both, nodes' crea
 
 ## Option 1
 
-Run separately each of the blocks in the `nodes_deletion.cql` file (e.g. `Uniqueness constraints`, `Insert communities`). This is the simpliest one! Do not forget to change the directories.
+Run separately each of the blocks in the `nodes_creation.cql` file (e.g. `Uniqueness constraints`, `Insert communities`). This is the simpliest one! Do not forget to change the directories.
 
 ## Option 2
 A more convinient - but it may be problematic at the beginning depending on your environment - is to open run the script with the `neo4j-shell`. Of course, this is how it is done in real life, so just do it if you wanna learn :P. To do this, follow the next steps:
@@ -26,4 +26,4 @@ This will create the database in just one step!
 
 # Edges
 
-TO DO
+Follow a similar approach, but with the file `nodes_creation.cql`. 
