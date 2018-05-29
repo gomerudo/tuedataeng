@@ -8,7 +8,7 @@ db_path="/Users/gomerudo/Library/Application Support/Neo4j Desktop/Application/n
 pushd $db_path
 
 i=1 
-while [ $i -le 12 ]; do
+while [ $i -le 60 ]; do
     bin/neo4j-shell -file /Users/gomerudo/workspace/git_storage/tuedataeng/cypher/nodes_deletion.cql
     i=$((i + 1))
 done

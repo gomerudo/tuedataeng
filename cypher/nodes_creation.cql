@@ -5,7 +5,7 @@ CREATE CONSTRAINT ON (c:Community) ASSERT c.id IS UNIQUE;
 CREATE CONSTRAINT ON (d:District) ASSERT d.id IS UNIQUE;
 CREATE CONSTRAINT ON (n:CaseNumber) ASSERT n.id IS UNIQUE;
 CREATE CONSTRAINT ON (n:Category) ASSERT n.id IS UNIQUE;
-
+CREATE CONSTRAINT ON (n:CrimeType) ASSERT n.id IS UNIQUE;
 
 // Insert communities
 USING PERIODIC COMMIT 1000 // We use this because it can not be done in 1 step because the size of the dataset
@@ -25,14 +25,14 @@ WHERE line.Value1 IS NOT NULL AND line.Value1 = "District"
 CREATE (c:District { id: line.NodeID, name: line.Value2 })
 ;
 
-// In case we need it, but commented now
 // Insert crime types
-// USING PERIODIC COMMIT 1000
-// LOAD CSV WITH HEADERS 
-// FROM "file:///Users/gomerudo/workspace/datasets/timewise_nodes.csv" AS line
-// WITH line
-// WHERE line.Value1 IS NOT NULL AND line.Value1 = "CrimeType" 
-// CREATE (c:CrimeType { id: line.NodeID, name: line.Value2 })
+USING PERIODIC COMMIT 1000
+LOAD CSV WITH HEADERS 
+FROM "file:///Users/gomerudo/workspace/datasets/timewise_nodes.csv" AS line
+WITH line
+WHERE line.Value1 IS NOT NULL AND line.Value1 = "CrimeType" 
+CREATE (c:CrimeType { id: line.NodeID, name: line.Value2 })
+;
 
 // Insert case numbers
 USING PERIODIC COMMIT 1000

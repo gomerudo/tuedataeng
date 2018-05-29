@@ -24,5 +24,20 @@ WHERE line.Value1 IS NOT NULL
     AND line.EdgeID = "CONSIDERED" // Get only edges of type CONSIDERED
 MATCH (a:Community),(b:Category)
 WHERE a.id=line.FromNodeID AND b.id=line.ToNodeID
-CREATE (a)-[r:CONSIDERED { id: a.id + '->' + b.id, hardshipIndex: line.Value1 } ]->(b)
+CREATE (a)-[r:CONSIDERED { id: a.id + '->' + b.id, rate: line.Value1 } ]->(b)
 ;
+
+// Create has_ocurrence_of relationship
+USING PERIODIC COMMIT 1000 // We use this because it can not be done in 1 step because the size of the dataset
+LOAD CSV WITH HEADERS 
+FROM "file:///Users/gomerudo/workspace/datasets/timewise_edges.csv" AS line // Replace your file path! Keep the file://
+WITH line
+WHERE line.Value1 IS NOT NULL 
+    AND line.Value2 IS NOT NULL 
+    AND line.Value3 IS NOT NULL 
+    AND line.EdgeID = "HAS_OCURRENCES_OF" // Get only edges of type HAS_OCURRENCES_OF
+MATCH (a:Community),(b:CrimeType)
+WHERE a.id=line.FromNodeID AND b.id=line.ToNodeID
+CREATE (a)-[r:HAS_OCURRENCES_OF { id: a.id + '->' + b.id, strength: line.Value1, startTime: line.Value2, endTime: line.Value3 } ]->(b)
+;
+
