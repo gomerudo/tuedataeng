@@ -63,6 +63,7 @@ WHERE line.Value1 IS NOT NULL
 MATCH (a:Community),(b:Category)
 WHERE a.id=line.FromNodeID AND b.id=line.ToNodeID
 CREATE (a)-[r:CONSIDERED { id: a.id + '->' + b.id, rate: line.Value1, year: line.Value2 } ]->(b)
+;
 
 // Create neighbors relationship
 USING PERIODIC COMMIT 1000 // We use this because it can not be done in 1 step because the size of the dataset
@@ -72,4 +73,4 @@ WITH line
 WHERE line.EdgeID = "NEIGHBOUR_OF"
 MATCH (a:Community),(b:Community)
 WHERE a.id=line.FromNodeID AND b.id=line.ToNodeID
-CREATE (a)-[r:NEIGHBOUR_OF { id: a.id + '-' + b.id } ]-(b)
+CREATE (a)-[r:NEIGHBOUR_OF { id: a.id + '-' + b.id } ]->(b)
