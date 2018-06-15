@@ -36,4 +36,11 @@ DETACH DELETE n
 RETURN count(*)
 ;
 
+MATCH (n:Location)
+WITH n LIMIT 100000
+DETACH DELETE n
+RETURN count(*)
+;
+
+
 
