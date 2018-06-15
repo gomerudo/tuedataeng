@@ -51,3 +51,12 @@ WITH line
 WHERE line.Value1 IS NOT NULL AND line.Value1 = "Category" 
 CREATE (c:Category { id: line.NodeID, name: line.Value2, comment: line.Value3 })
 ;
+
+// Insert Nodes constructed based on criteria (e.g. Dangerous)
+USING PERIODIC COMMIT 1000
+LOAD CSV WITH HEADERS 
+FROM "file:///Users/gomerudo/workspace/datasets/timewise_nodes.csv" AS line
+WITH line
+WHERE line.Value1 IS NOT NULL AND line.Value1 = "Location" 
+CREATE (c:Location { id: line.NodeID, name: line.Value2 })
+;
