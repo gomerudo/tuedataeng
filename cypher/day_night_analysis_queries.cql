@@ -16,7 +16,6 @@ RETURN distinct(r.startTime) // To test the hours expression is correct
 LIMIT 25
 ;
 
-
 // All during day
 MATCH (loc:Location)<-[r1:HAS_LOCATION_TYPE]-(cn:CaseNumber)-[r2:OCURRED_IN]->(com:Community)
 WHERE 
@@ -28,11 +27,6 @@ WHERE
     r2.startTime =~ '2017-.*-.*(00|01|02|03|04|05|21|22|23|24):.*:.*'
 RETURN com.name as Community, loc.name as Location, count(loc.name) as Frequency, 'Night' as Period
 ORDER BY Community, Frequency DESC
-;
-
-
-// All during night
-ORDER BY Community, FrequencyNight DESC
 ;
 
 //Top 3 night
@@ -61,4 +55,18 @@ CALL apoc.cypher.run("
   ", 
   {n:n}) YIELD value
 RETURN value.Community, value.Location, value.Frequency, value.Period
+;
+
+
+// All during day
+MATCH (cr:CrimeType)<-[r1:IS_OF_TYPE]-(cn:CaseNumber)-[r2:OCURRED_IN]->(com:Community)
+WHERE 
+    r2.startTime =~ '2017-.*-.*(06|07|08|09|10|11|12|13|14|15|16|17|18|19|20):.*:.*'
+RETURN com.name as Community, cr.name as Crime, count(cr.name) as Frequency, 'Day' as Period
+UNION ALL 
+MATCH (cr:CrimeType)<-[r1:HAS_LOCATION_TYPE]-(cn:CaseNumber)-[r2:OCURRED_IN]->(com:Community)
+WHERE 
+    r2.startTime =~ '2017-.*-.*(00|01|02|03|04|05|21|22|23|24):.*:.*'
+RETURN com.name as Community, cr.name as Crime, count(cr.name) as Frequency, 'Night' as Period
+ORDER BY Community, Frequency DESC
 ;
